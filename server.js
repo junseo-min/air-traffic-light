@@ -2,7 +2,7 @@ import http from 'http';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import dataHandler from './api/data.js';
+import financeHandler from './api/finance.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -42,8 +42,8 @@ const server = http.createServer(async (req, res) => {
   const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
   const pathname = parsedUrl.pathname;
 
-  // 1. 브이월드 API 요청 처리 (/api/data)
-  if (pathname === '/api/data' || pathname === '/api/vworld') {
+  // 1. 금융위원회 기업 재무정보 API 요청 처리 (/api/finance)
+  if (pathname === '/api/finance' || pathname === '/api/data') {
     const query = Object.fromEntries(parsedUrl.searchParams);
     const mockReq = { query };
     const mockRes = {
@@ -65,7 +65,7 @@ const server = http.createServer(async (req, res) => {
       }
     };
     try {
-      await dataHandler(mockReq, mockRes);
+      await financeHandler(mockReq, mockRes);
     } catch (err) {
       res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
       res.end(JSON.stringify({ error: err.message }));
@@ -73,7 +73,7 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  // 2. 정적 파일 서빙: public 폴더를 우선 확인하고, 없으면 루트를 확인합니다.
+  // 2. 정적 파일 서빙: public 폴더 우선, 그 다음 루트
   const reqFile = pathname === '/' ? 'index.html' : pathname;
   let filePath = path.join(__dirname, 'public', reqFile);
   
@@ -95,5 +95,5 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`[VWorld 대시보드 로컬 서버 실행] http://localhost:${PORT}`);
+  console.log(`[기업 재무정보 대시보드 로컬 서버 실행] http://localhost:${PORT}`);
 });

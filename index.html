@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <!-- 문서 문자 인코딩을 UTF-8로 지정합니다 -->
+  <!-- 문서 인코딩을 UTF-8로 지정합니다 -->
   <meta charset="UTF-8">
-  <!-- 모바일 환경 최적화를 위한 뷰포트 메타 태그입니다 -->
+  <!-- 모바일 환경 최적화를 위한 뷰포트 설정입니다 -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- 웹 애플리케이션의 타이틀입니다 -->
-  <title>VWorld 국가공간정보 실시간 조회 서비스</title>
-  <!-- Pretendard 웹 폰트를 불러옵니다 -->
+  <!-- 웹 애플리케이션 제목입니다 -->
+  <title>기업 재무정보 신호등 대시보드</title>
+  <!-- Pretendard 웹폰트를 불러옵니다 -->
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
-  <!-- 외부 스타일시트를 연결합니다 -->
+  <!-- 스타일시트를 연결합니다 -->
   <link rel="stylesheet" href="style.css">
   <!-- Chart.js 라이브러리를 CDN으로 연결합니다 -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- 클라이언트 로직을 담당하는 자바스크립트 파일을 defer로 로드합니다 -->
+  <!-- 클라이언트 로직 자바스크립트 파일을 defer로 로드합니다 -->
   <script src="script.js" defer></script>
 </head>
 <body>
@@ -21,60 +21,73 @@
   <div class="app-container">
     <!-- 상단 헤더 영역입니다 -->
     <header class="header">
-      <h1>🗺️ VWorld 공간정보 대시보드</h1>
-      <p class="subtitle">국토교통부 브이월드(api.vworld.kr/req/data) 오픈API 실시간 데이터</p>
+      <h1>🏢 기업 재무정보 신호등</h1>
+      <p class="subtitle">금융위원회 기업 재무정보 오픈API (GetFinaStatInfoService_V2) 실시간 데이터</p>
     </header>
 
     <!-- 컨트롤 선택 영역입니다 -->
     <section class="control-section">
-      <!-- 시도 드롭다운 그룹입니다 -->
+      <!-- 대표 기업 프리셋 선택 드롭다운입니다 -->
       <div class="control-group">
-        <label for="sidoSelect" class="select-label">시도 선택</label>
-        <select id="sidoSelect" class="custom-dropdown">
-          <option value="서울" selected>서울특별시</option>
-          <option value="전국">전국 전체</option>
-          <option value="경기">경기도</option>
-          <option value="인천">인천광역시</option>
-          <option value="부산">부산광역시</option>
-          <option value="대구">대구광역시</option>
-          <option value="광주">광주광역시</option>
-          <option value="대전">대전광역시</option>
-          <option value="울산">울산광역시</option>
-          <option value="세종">세종특별자치시</option>
-          <option value="강원">강원특별자치도</option>
-          <option value="충북">충청북도</option>
-          <option value="충남">충청남도</option>
-          <option value="전북">전북특별자치도</option>
-          <option value="전남">전라남도</option>
-          <option value="경북">경상북도</option>
-          <option value="경남">경상남도</option>
-          <option value="제주">제주특별자치도</option>
+        <label for="corpSelect" class="select-label">기업 선택</label>
+        <select id="corpSelect" class="custom-dropdown">
+          <option value="1101110004380" selected>삼성전자</option>
+          <option value="1342110009040">SK하이닉스</option>
+          <option value="1101110085294">현대자동차</option>
+          <option value="1101112480749">LG전자</option>
+          <option value="1101111718873">NAVER</option>
+          <option value="1101111450280">카카오</option>
+          <option value="1101110034322">기아</option>
+          <option value="1101110034294">POSCO홀딩스</option>
+          <option value="1146710001456">한국전력공사</option>
+          <option value="1101112306981">신한금융지주</option>
+          <option value="custom">직접 입력</option>
         </select>
       </div>
 
-      <!-- 데이터 레이어 선택 그룹입니다 -->
+      <!-- 직접 법인등록번호를 입력할 수 있는 필드입니다 -->
+      <div id="customCrnoGroup" class="control-group custom-crno-input hidden">
+        <label for="customCrno" class="select-label">법인등록번호</label>
+        <input type="text" id="customCrno" class="custom-input" placeholder="13자리 법인등록번호" maxlength="13">
+        <button id="searchCustomBtn" class="btn-search">조회</button>
+      </div>
+
+      <!-- 사업연도 선택 드롭다운입니다 -->
       <div class="control-group">
-        <label for="layerSelect" class="select-label">데이터 분류</label>
-        <select id="layerSelect" class="custom-dropdown">
-          <option value="LT_C_ADSIGG_INFO" selected>시군구 행정경계 정보</option>
-          <option value="LT_C_ADEMD_INFO">읍면동 행정경계 정보</option>
+        <label for="yearSelect" class="select-label">사업연도</label>
+        <select id="yearSelect" class="custom-dropdown">
+          <option value="2024">2024년</option>
+          <option value="2023" selected>2023년</option>
+          <option value="2022">2022년</option>
+          <option value="2021">2021년</option>
+          <option value="2020">2020년</option>
+        </select>
+      </div>
+
+      <!-- 재무제표 구분 드롭다운입니다 -->
+      <div class="control-group">
+        <label for="typeSelect" class="select-label">재무제표</label>
+        <select id="typeSelect" class="custom-dropdown">
+          <option value="getSummFinaStat_V2" selected>요약재무제표</option>
+          <option value="getIncoStat_V2">손익계산서</option>
+          <option value="getBs_V2">재무상태표</option>
         </select>
       </div>
     </section>
 
-    <!-- 상단 대표 요약 배너입니다 -->
-    <section id="summaryBanner" class="summary-banner theme-blue">
-      <div class="banner-region"><span id="selectedRegionTitle">서울특별시</span> 공간 데이터 요약</div>
+    <!-- 상단 대형 재무 신호등 배너입니다 -->
+    <section id="financeBanner" class="finance-banner grade-blue">
+      <div class="banner-region"><span id="bannerCorpName">삼성전자</span> (<span id="bannerBizYear">2023</span>년) 경영 실적 요약</div>
       
-      <!-- 대형 대표 수치 표시 영역입니다 -->
+      <!-- 신호등 핵심 표시부: 이모지 + 상태 텍스트 + 주요 수치 -->
       <div class="banner-main-row">
-        <span id="bannerEmoji" class="banner-emoji">🏛️</span>
-        <span id="bannerMainText" class="banner-main-text">조회 중...</span>
-        <span id="bannerSubValue" class="banner-sub-value">-</span>
+        <span id="bannerEmoji" class="banner-emoji">🔵</span>
+        <span id="bannerGradeText" class="banner-grade-text">대규모 흑자</span>
+        <span id="bannerMainValue" class="banner-main-value">매출액 -</span>
       </div>
 
-      <!-- 안내 문구입니다 -->
-      <p id="actionTip" class="action-tip">브이월드 데이터 서버와 통신 중입니다...</p>
+      <!-- 한 줄 재무 진단 안내 문구입니다 -->
+      <p id="actionTip" class="action-tip">재무제표 데이터를 조회하고 있습니다...</p>
       
       <!-- 기준 시각 안내입니다 -->
       <div id="updateTimeText" class="update-time-text">데이터를 불러오는 중...</div>
@@ -82,17 +95,17 @@
 
     <!-- Chart.js 가로 막대그래프 섹션입니다 -->
     <section class="chart-section">
-      <h2 class="section-title">📊 지역별 행정단위 코드 분포 (상위 10개)</h2>
+      <h2 class="section-title">📊 핵심 재무 항목 비교 (단위: 억 원)</h2>
       <div class="chart-wrapper">
-        <canvas id="dataChart"></canvas>
+        <canvas id="financeChart"></canvas>
       </div>
     </section>
 
-    <!-- 상세 카드 목록 섹션입니다 -->
+    <!-- 상세 재무 카드 그리드 섹션입니다 -->
     <section class="cards-section">
-      <h2 class="section-title">📍 상세 공간정보 목록</h2>
+      <h2 class="section-title">📑 상세 재무 항목 현황</h2>
       <div id="cardsGrid" class="cards-grid">
-        <div class="loading-message">공간정보 데이터를 불러오는 중...</div>
+        <div class="loading-message">기업 재무 데이터를 불러오는 중...</div>
       </div>
     </section>
   </div>

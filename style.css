@@ -5,29 +5,29 @@
   box-sizing: border-box;
 }
 
-/* Pretendard 폰트와 부드러운 배경색을 지정합니다 */
+/* Pretendard 폰트와 금융 느낌의 깔끔한 배경색을 지정합니다 */
 body {
   font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
-  background-color: #f1f5f9;
+  background-color: #f8fafc;
   color: #1e293b;
   line-height: 1.6;
   padding: 24px 16px;
   -webkit-font-smoothing: antialiased;
 }
 
-/* 메인 컨테이너 최대 너비 및 중앙 정렬입니다 */
+/* 전체 컨테이너 너비 및 중앙 정렬입니다 */
 .app-container {
   max-width: 980px;
   margin: 0 auto;
 }
 
-/* 헤더 텍스트 스타일입니다 */
+/* 상단 헤더 영역 스타일입니다 */
 .header {
   text-align: center;
   margin-bottom: 24px;
 }
 
-/* 헤더 메인 타이틀 스타일입니다 */
+/* 메인 타이틀 스타일입니다 */
 .header h1 {
   font-size: 2rem;
   font-weight: 800;
@@ -35,7 +35,7 @@ body {
   letter-spacing: -0.5px;
 }
 
-/* 헤더 부제목 스타일입니다 */
+/* 부제목 스타일입니다 */
 .subtitle {
   font-size: 0.95rem;
   color: #64748b;
@@ -47,7 +47,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: 14px;
   flex-wrap: wrap;
   margin-bottom: 24px;
 }
@@ -59,7 +59,12 @@ body {
   gap: 8px;
 }
 
-/* 셀렉트 라벨 텍스트 스타일입니다 */
+/* 숨김 클래스 처리입니다 */
+.hidden {
+  display: none !important;
+}
+
+/* 셀렉트 및 인풋 라벨 텍스트 스타일입니다 */
 .select-label {
   font-size: 0.95rem;
   font-weight: 700;
@@ -67,7 +72,7 @@ body {
 }
 
 /* 드롭다운 셀렉트 박스 스타일입니다 */
-.custom-dropdown {
+.custom-dropdown, .custom-input {
   padding: 10px 16px;
   font-size: 0.95rem;
   font-weight: 600;
@@ -77,19 +82,36 @@ body {
   color: #1e293b;
   cursor: pointer;
   outline: none;
-  min-width: 150px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
   transition: all 0.2s ease;
 }
 
-/* 드롭다운 포커스 스타일입니다 */
-.custom-dropdown:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+/* 인풋 박스 너비 조정입니다 */
+.custom-input {
+  width: 160px;
+  cursor: text;
 }
 
-/* 상단 메인 요약 배너 박스 스타일입니다 */
-.summary-banner {
+/* 조회 버튼 스타일입니다 */
+.btn-search {
+  padding: 10px 18px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+/* 조회 버튼 호버 스타일입니다 */
+.btn-search:hover {
+  background-color: #1d4ed8;
+}
+
+/* 대형 재무 신호등 배너 스타일입니다 */
+.finance-banner {
   border-radius: 24px;
   padding: 32px 24px;
   text-align: center;
@@ -99,29 +121,15 @@ body {
   transition: all 0.3s ease;
 }
 
-/* 요약 배너 테마 블루 스타일입니다 */
-.summary-banner.theme-blue {
-  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-  border-color: #93c5fd;
-  color: #1e40af;
-}
-
-/* 요약 배너 테마 그린 스타일입니다 */
-.summary-banner.theme-green {
-  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-  border-color: #86efac;
-  color: #166534;
-}
-
-/* 선택된 지역명 표시 스타일입니다 */
+/* 기업명 및 사업연도 안내 타이틀입니다 */
 .banner-region {
-  font-size: 1.1rem;
-  font-weight: 700;
-  opacity: 0.85;
+  font-size: 1.15rem;
+  font-weight: 800;
+  opacity: 0.88;
   margin-bottom: 12px;
 }
 
-/* 배너 메인 수치 행 레이아웃입니다 */
+/* 배너 메인 행 레이아웃입니다 */
 .banner-main-row {
   display: flex;
   align-items: center;
@@ -131,29 +139,29 @@ body {
   margin-bottom: 14px;
 }
 
-/* 배너 대표 이모지 스타일입니다 */
+/* 대표 신호등 이모지 스타일입니다 */
 .banner-emoji {
   font-size: 3.2rem;
   line-height: 1;
 }
 
-/* 배너 메인 텍스트 스타일입니다 */
-.banner-main-text {
-  font-size: 2.6rem;
+/* 대표 상태 텍스트 스타일입니다 */
+.banner-grade-text {
+  font-size: 2.5rem;
   font-weight: 900;
   letter-spacing: -1px;
   line-height: 1;
 }
 
-/* 배너 서브 수치 스타일입니다 */
-.banner-sub-value {
+/* 배너 대표 금액 수치 스타일입니다 */
+.banner-main-value {
   font-size: 2rem;
   font-weight: 800;
   opacity: 0.95;
   line-height: 1;
 }
 
-/* 안내 문구 스타일입니다 */
+/* 한 줄 재무 진단 안내 문구 스타일입니다 */
 .action-tip {
   font-size: 1.1rem;
   font-weight: 700;
@@ -172,7 +180,35 @@ body {
   opacity: 0.75;
 }
 
-/* 섹션 타이틀 공통 스타일입니다 */
+/* 흑자 및 우량: 파랑 배너 */
+.finance-banner.grade-blue {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  border-color: #60a5fa;
+  color: #1e40af;
+}
+
+/* 안정 및 보통: 초록 배너 */
+.finance-banner.grade-green {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border-color: #4ade80;
+  color: #166534;
+}
+
+/* 적자 및 유의: 빨강 배너 */
+.finance-banner.grade-red {
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  border-color: #f87171;
+  color: #b91c1c;
+}
+
+/* 조회 중/기본: 회색 배너 */
+.finance-banner.grade-none {
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+/* 섹션 타이틀 스타일입니다 */
 .section-title {
   font-size: 1.25rem;
   font-weight: 800;
@@ -180,7 +216,7 @@ body {
   margin-bottom: 16px;
 }
 
-/* 차트 컨테이너 섹션 스타일입니다 */
+/* 차트 섹션 박스 스타일입니다 */
 .chart-section {
   background-color: #ffffff;
   border-radius: 20px;
@@ -189,26 +225,26 @@ body {
   margin-bottom: 32px;
 }
 
-/* 차트 캔버스 감싸는 영역입니다 */
+/* 차트 캔버스 래퍼 영역입니다 */
 .chart-wrapper {
   position: relative;
   height: 380px;
   width: 100%;
 }
 
-/* 상세 카드 섹션 스타일입니다 */
+/* 카드 목록 섹션입니다 */
 .cards-section {
   margin-bottom: 40px;
 }
 
-/* 카드 배치용 반응형 그리드입니다 */
+/* 반응형 카드 그리드입니다 */
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 16px;
 }
 
-/* 로딩 및 안내 메시지 박스 스타일입니다 */
+/* 로딩/안내 메시지 스타일입니다 */
 .loading-message, .error-message, .empty-message {
   grid-column: 1 / -1;
   text-align: center;
@@ -221,13 +257,13 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-/* 에러 메시지 텍스트 색상입니다 */
+/* 에러 텍스트 스타일입니다 */
 .error-message {
   color: #e11d48;
 }
 
-/* 개별 공간정보 카드 스타일입니다 */
-.data-card {
+/* 재무 상세 카드 스타일입니다 */
+.finance-card {
   border-radius: 16px;
   padding: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
@@ -239,11 +275,10 @@ body {
   background-color: #ffffff;
 }
 
-/* 카드 호버 인터랙션 효과입니다 */
-.data-card:hover {
+/* 호버 시 떠오르는 효과입니다 */
+.finance-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
-  border-color: #93c5fd;
 }
 
 /* 카드 헤더 스타일입니다 */
@@ -254,7 +289,7 @@ body {
   margin-bottom: 14px;
 }
 
-/* 카드 메인 명칭 텍스트 스타일입니다 */
+/* 카드 항목명 스타일입니다 */
 .card-title {
   font-size: 1.15rem;
   font-weight: 800;
@@ -271,30 +306,22 @@ body {
   color: #0284c7;
 }
 
-/* 카드 속성 행 스타일입니다 */
-.card-info-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 7px 0;
-  border-bottom: 1px dashed rgba(0, 0, 0, 0.06);
+/* 카드 본문 수치 스타일입니다 */
+.card-amount {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #1e293b;
+  margin-bottom: 8px;
 }
 
-/* 카드 라벨 텍스트 스타일입니다 */
-.info-label {
-  font-size: 0.88rem;
+/* 원본 금액 및 단위 안내 스타일입니다 */
+.card-raw-amount {
+  font-size: 0.85rem;
   color: #64748b;
   font-weight: 500;
 }
 
-/* 카드 수치 및 값 텍스트 스타일입니다 */
-.info-value {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: #1e293b;
-}
-
-/* 카드 하단 메타정보 텍스트입니다 */
+/* 카드 하단 메타정보 안내입니다 */
 .card-footer {
   margin-top: 14px;
   font-size: 0.78rem;
@@ -303,24 +330,24 @@ body {
   font-weight: 500;
 }
 
-/* 모바일 화면용 미디어 쿼리입니다 */
+/* 모바일 반응형 미디어 쿼리입니다 */
 @media (max-width: 600px) {
   body {
     padding: 16px 12px;
   }
-  .summary-banner {
+  .finance-banner {
     padding: 24px 16px;
   }
   .banner-emoji {
     font-size: 2.6rem;
   }
-  .banner-main-text {
-    font-size: 2.2rem;
+  .banner-grade-text {
+    font-size: 2rem;
   }
-  .banner-sub-value {
-    font-size: 1.6rem;
+  .banner-main-value {
+    font-size: 1.5rem;
   }
   .chart-wrapper {
-    height: 300px;
+    height: 320px;
   }
 }
