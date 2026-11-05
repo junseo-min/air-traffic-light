@@ -2,7 +2,7 @@ import http from 'http';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import handler from './api/dust.js';
+import dataHandler from './api/data.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -42,8 +42,8 @@ const server = http.createServer(async (req, res) => {
   const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
   const pathname = parsedUrl.pathname;
 
-  // 1. /api/dust 요청 처리 (Vercel 서버리스 함수 시뮬레이션)
-  if (pathname === '/api/dust') {
+  // 1. 브이월드 API 요청 처리 (/api/data)
+  if (pathname === '/api/data' || pathname === '/api/vworld') {
     const query = Object.fromEntries(parsedUrl.searchParams);
     const mockReq = { query };
     const mockRes = {
@@ -65,7 +65,7 @@ const server = http.createServer(async (req, res) => {
       }
     };
     try {
-      await handler(mockReq, mockRes);
+      await dataHandler(mockReq, mockRes);
     } catch (err) {
       res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
       res.end(JSON.stringify({ error: err.message }));
@@ -95,5 +95,5 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`[서버 정상 실행] http://localhost:${PORT}`);
+  console.log(`[VWorld 대시보드 로컬 서버 실행] http://localhost:${PORT}`);
 });
