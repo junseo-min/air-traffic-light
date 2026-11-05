@@ -1,0 +1,15 @@
+# 환경변수 파일 (인증키 유출 방지를 위해 Git 추적에서 제외)
+.env
+.env.local
+.env.*.local
+
+# Vercel 로컬 설정 및 캐시 폴더
+.vercel
+
+# 노드 의존성 모듈
+node_modules/
+
+# 운영체제 임시 파일
+.DS_Store
+Thumbs.db
+
