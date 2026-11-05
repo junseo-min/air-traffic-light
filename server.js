@@ -73,9 +73,14 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  // 2. 정적 파일 서빙 (index.html, style.css, script.js 등)
-  let filePath = path.join(__dirname, pathname === '/' ? 'index.html' : pathname);
+  // 2. 정적 파일 서빙: public 폴더를 우선 확인하고, 없으면 루트를 확인합니다.
+  const reqFile = pathname === '/' ? 'index.html' : pathname;
+  let filePath = path.join(__dirname, 'public', reqFile);
   
+  if (!fs.existsSync(filePath)) {
+    filePath = path.join(__dirname, reqFile);
+  }
+
   if (!fs.existsSync(filePath)) {
     res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
     res.end('404 Not Found');
@@ -90,10 +95,5 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`===============================================`);
-  console.log(`[서버 실행 성공]`);
-  console.log(`로컬 주소: http://localhost:${PORT}`);
-  console.log(`브라우저에서 위 주소로 접속하여 테스트할 수 있습니다.`);
-  console.log(`===============================================`);
+  console.log(`[서버 정상 실행] http://localhost:${PORT}`);
 });
-

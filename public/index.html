@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <!-- 문서의 문자 인코딩을 UTF-8로 설정합니다 -->
+  <meta charset="UTF-8">
+  <!-- 모바일 환경에서도 화면이 알맞게 표시되도록 뷰포트를 설정합니다 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 웹페이지 제목을 설정합니다 -->
+  <title>공기 신호등 - 실시간 미세먼지 현황</title>
+  <!-- Pretendard 웹 폰트 스타일시트를 불러옵니다 -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+  <!-- 외부 스타일시트(CSS) 파일을 연결합니다 -->
+  <link rel="stylesheet" href="style.css">
+  <!-- 가로 막대그래프 생성을 위해 Chart.js 라이브러리를 CDN으로 불러옵니다 -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- 자바스크립트 파일을 연결하며 DOM 로드 후 실행되도록 defer 속성을 적용합니다 -->
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <!-- 전체 콘텐츠를 감싸는 반응형 메인 컨테이너입니다 -->
+  <div class="app-container">
+    <!-- 상단 헤더 영역입니다 -->
+    <header class="header">
+      <!-- 메인 제목 표시입니다 -->
+      <h1>🚦 공기 신호등</h1>
+      <!-- 부제목 설명글입니다 -->
+      <p class="subtitle">에어코리아 실시간 대기오염 및 미세먼지 신호등</p>
+    </header>
+
+    <!-- 시도 선택 컨트롤 영역입니다 -->
+    <section class="control-section">
+      <!-- 드롭다운 라벨입니다 -->
+      <label for="sidoSelect" class="select-label">지역 선택</label>
+      <!-- 시도를 선택할 수 있는 드롭다운 메뉴입니다 -->
+      <select id="sidoSelect" class="sido-dropdown">
+        <!-- 기본 선택값인 서울특별시 옵션입니다 -->
+        <option value="서울" selected>서울</option>
+        <!-- 전국 옵션입니다 -->
+        <option value="전국">전국</option>
+        <!-- 부산광역시 옵션입니다 -->
+        <option value="부산">부산</option>
+        <!-- 대구광역시 옵션입니다 -->
+        <option value="대구">대구</option>
+        <!-- 인천광역시 옵션입니다 -->
+        <option value="인천">인천</option>
+        <!-- 광주광역시 옵션입니다 -->
+        <option value="광주">광주</option>
+        <!-- 대전광역시 옵션입니다 -->
+        <option value="대전">대전</option>
+        <!-- 울산광역시 옵션입니다 -->
+        <option value="울산">울산</option>
+        <!-- 세종특별자치시 옵션입니다 -->
+        <option value="세종">세종</option>
+        <!-- 경기도 옵션입니다 -->
+        <option value="경기">경기</option>
+        <!-- 강원특별자치도 옵션입니다 -->
+        <option value="강원">강원</option>
+        <!-- 충청북도 옵션입니다 -->
+        <option value="충북">충북</option>
+        <!-- 충청남도 옵션입니다 -->
+        <option value="충남">충남</option>
+        <!-- 전북특별자치도 옵션입니다 -->
+        <option value="전북">전북</option>
+        <!-- 전라남도 옵션입니다 -->
+        <option value="전남">전남</option>
+        <!-- 경상북도 옵션입니다 -->
+        <option value="경북">경북</option>
+        <!-- 경상남도 옵션입니다 -->
+        <option value="경남">경남</option>
+        <!-- 제주특별자치도 옵션입니다 -->
+        <option value="제주">제주</option>
+      </select>
+    </section>
+
+    <!-- '공기 신호등' 대형 배너 섹션입니다 -->
+    <section id="trafficLightBanner" class="traffic-light-banner grade-none">
+      <!-- 선택 지역명 타이틀입니다 -->
+      <div class="banner-region"><span id="selectedRegionName">서울</span>의 공기 상태</div>
+      
+      <!-- 신호등 핵심 표시부: 이모지 + 상태 텍스트 + 평균 수치 -->
+      <div class="traffic-main-row">
+        <!-- 대형 신호등 이모지 표시 영역입니다 (🔵🟢🟠🔴) -->
+        <span id="statusEmoji" class="status-emoji">⚪</span>
+        <!-- 상태 한글 텍스트 표시 영역입니다 (좋음/보통/나쁨/매우나쁨) -->
+        <span id="statusGradeText" class="status-grade-text">불러오는 중...</span>
+        <!-- 평균 미세먼지 수치 표시 영역입니다 -->
+        <span id="averagePm10" class="average-pm10">-</span>
+      </div>
+
+      <!-- 행동 요령 한 줄 안내 문구 (나쁨 이상 시 '외출 시 마스크를 챙기세요') -->
+      <p id="actionTip" class="action-tip">데이터를 확인하고 있습니다...</p>
+      
+      <!-- 한국어 형식(예: 2026년 10월 28일 16시 기준)의 측정 시각 안내입니다 -->
+      <div id="updateTimeText" class="update-time-text">측정 시각을 불러오는 중...</div>
+    </section>
+
+    <!-- 측정소별 미세먼지 상위 10개 가로 막대그래프 섹션입니다 -->
+    <section class="chart-section">
+      <!-- 차트 타이틀입니다 -->
+      <h2 class="section-title">📊 미세먼지 농도 상위 10개 측정소 (가로 막대그래프)</h2>
+      <!-- 캔버스를 감싸는 반응형 차트 래퍼 컨테이너입니다 -->
+      <div class="chart-wrapper">
+        <canvas id="pm10Chart"></canvas>
+      </div>
+    </section>
+
+    <!-- 측정소별 카드 목록 섹션입니다 -->
+    <section class="cards-section">
+      <!-- 카드 목록 타이틀입니다 -->
+      <h2 class="section-title">📍 전체 측정소별 대기 현황</h2>
+      <!-- 카드들이 동적으로 추가되는 그리드 컨테이너입니다 -->
+      <div id="cardsGrid" class="cards-grid">
+        <!-- 로딩 중 상태 안내 메시지입니다 -->
+        <div class="loading-message">데이터를 불러오는 중...</div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
