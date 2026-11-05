@@ -1,11 +1,9 @@
 {
-  "name": "airkorea-dust-app",
+  "name": "air-traffic-light",
   "version": "1.0.0",
   "type": "module",
   "description": "에어코리아 실시간 대기오염정보 웹앱",
   "scripts": {
-    "dev": "node server.js",
-    "start": "node server.js"
+    "dev": "node server.js"
   }
 }
-
